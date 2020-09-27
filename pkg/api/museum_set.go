@@ -6,8 +6,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func (s *Server) initMuseumSet(e *echo.Echo) {
+	e.GET("/museumSets", s.getMuseumSets)
+	e.GET("/museumSet/:id", s.getMuseumSet)
+}
+
 func (s *Server) getMuseumSets(c echo.Context) error {
-	items, err := s.service.FindMuseumSets()
+	items, err := s.service.GetMuseumSets()
 	if err != nil {
 		log.Printf("Failed to find museum sets: %+v", err)
 		return err

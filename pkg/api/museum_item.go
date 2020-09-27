@@ -7,8 +7,21 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"pbz2/pkg/service"
+	"pbz2/pkg/entities"
 )
+
+func (s *Server) initMuseumItemAPI(e *echo.Echo) {
+	e.POST("/museumItem", s.createMuseumItem)
+	e.GET("/museumItem", s.getMuseumItemPage)
+	e.GET("/museumItem/:id", s.getMuseumItem)
+	e.GET("/museumItems", s.getMuseumItems)
+	e.GET("/deleteMuseumItem/:id", s.deleteMuseumItem)
+	e.GET("/editMuseumItem/:id", s.editMuseumItem)
+	e.POST("/editMuseumItem/:id", s.updateMuseumItem)
+
+	e.GET("/museumItemSearch", s.getMuseumItemSearchPage)
+	e.POST("/museumItemSearch", s.searchMuseumItems)
+}
 
 func (s *Server) createMuseumItem(c echo.Context) error {
 	_, err := s.service.CreateMuseumItem(getItemFromForm(c))
@@ -21,7 +34,7 @@ func (s *Server) createMuseumItem(c echo.Context) error {
 
 func (s *Server) getMuseumItem(c echo.Context) error {
 	id := getIDFromURL(c)
-	item, err := s.service.FindMuseumItemWithDetails(id)
+	item, err := s.service.GetMuseumItemWithDetails(id)
 	if err != nil {
 		log.Printf("Failed to find item with details: %s", err)
 		return err
@@ -34,7 +47,7 @@ func (s *Server) getMuseumItem(c echo.Context) error {
 func (s *Server) editMuseumItem(c echo.Context) error {
 	id := c.Param("id")
 	parsedID, _ := strconv.ParseInt(id, 10, 64)
-	item, err := s.service.FindMuseumItem(int(parsedID))
+	item, err := s.service.GetMuseumItem(int(parsedID))
 	if err != nil {
 		log.Print(err)
 		return err
@@ -86,7 +99,7 @@ func (s *Server) searchMuseumItems(c echo.Context) error {
 }
 
 func (s *Server) getMuseumItems(c echo.Context) error {
-	items, err := s.service.FindMuseumItems(service.SearchMuseumItemsArgs{})
+	items, err := s.service.FindMuseumItems(entities.SearchMuseumItemsArgs{})
 	if err != nil {
 		log.Printf("Failed to find museum item: %+v", err)
 		return err
@@ -101,14 +114,14 @@ func getIDFromURL(c echo.Context) int {
 	return parsedID
 }
 
-func getItemFromForm(c echo.Context) service.MuseumItemWithDetails {
-	var item service.MuseumItemWithDetails
+func getItemFromForm(c echo.Context) entities.MuseumItemWithDetails {
+	var item entities.MuseumItemWithDetails
 	item.Name = c.FormValue("item_name")
 	item.Annotation = c.FormValue("item_annotation")
 	item.InventoryNumber = c.FormValue("inventory_number")
 
 	creationDate, _ := time.Parse("2006-01-02", c.FormValue("creation_date"))
-	item.CreationDate = service.NewDate(creationDate)
+	item.CreationDate = entities.NewDate(creationDate)
 
 	item.Keeper = getPersonFromForm(c)
 	item.Fund = getFundFromForm(c)
@@ -116,8 +129,8 @@ func getItemFromForm(c echo.Context) service.MuseumItemWithDetails {
 	return item
 }
 
-func getSearchArgsFromForm(c echo.Context) service.SearchMuseumItemsArgs {
-	var args service.SearchMuseumItemsArgs
+func getSearchArgsFromForm(c echo.Context) entities.SearchMuseumItemsArgs {
+	var args entities.SearchMuseumItemsArgs
 	set := getSetFromForm(c)
 	if set.Name != "" {
 		args.SetName = &set.Name
@@ -132,22 +145,22 @@ func getSearchArgsFromForm(c echo.Context) service.SearchMuseumItemsArgs {
 	}
 	return args
 }
-func getPersonFromForm(c echo.Context) service.Person {
-	var person service.Person
+func getPersonFromForm(c echo.Context) entities.Person {
+	var person entities.Person
 	person.FirstName = c.FormValue("first_name")
 	person.LastName = c.FormValue("second_name")
 	person.MiddleName = c.FormValue("middle_name")
 	return person
 }
 
-func getFundFromForm(c echo.Context) service.MuseumFund {
-	var fund service.MuseumFund
+func getFundFromForm(c echo.Context) entities.MuseumFund {
+	var fund entities.MuseumFund
 	fund.Name = c.FormValue("fund_name")
 	return fund
 }
 
-func getSetFromForm(c echo.Context) service.MuseumSet {
-	var set service.MuseumSet
+func getSetFromForm(c echo.Context) entities.MuseumSet {
+	var set entities.MuseumSet
 	set.Name = c.FormValue("set_name")
 	return set
 }

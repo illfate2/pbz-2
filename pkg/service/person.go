@@ -1,14 +1,13 @@
 package service
 
-import "context"
+import (
+	"pbz2/pkg/entities"
+)
 
-func (s *Service) InsertPerson(person Person) (Person, error) {
-	err := s.conn.QueryRow(context.Background(),
-		`INSERT INTO persons(first_name,second_name,middle_name) VALUES($1,$2,$3) RETURNING id`,
-		person.FirstName, person.LastName, person.MiddleName).
-		Scan(&person.ID)
+func (s *Service) CreatePerson(person entities.Person) (entities.Person, error) {
+	person, err := s.repo.InsertPerson(person)
 	if err != nil {
-		return Person{}, err
+		return entities.Person{}, err
 	}
 	return person, nil
 }

@@ -6,11 +6,18 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"pbz2/pkg/service"
+	"pbz2/pkg/entities"
 )
 
+func (s *Server) initMuseumItemMovement(e *echo.Echo) {
+	e.POST("/museumItemMovement", s.createMuseumItemMovement)
+	e.GET("/museumItemMovements", s.getMuseumItemMovements)
+	e.GET("/museumItemMovement", s.getMuseumItemMovementPage)
+	e.GET("/museumItemMovement/:id", s.getMuseumItemMovement)
+}
+
 func (s *Server) getMuseumItemMovements(c echo.Context) error {
-	movements, err := s.service.FindMuseumItemMovements()
+	movements, err := s.service.GetMuseumItemMovements()
 	if err != nil {
 		log.Printf("Failed to find museum item movement: %+v", err)
 		return err
@@ -21,7 +28,7 @@ func (s *Server) getMuseumItemMovements(c echo.Context) error {
 
 func (s *Server) getMuseumItemMovement(c echo.Context) error {
 	id := getIDFromURL(c)
-	item, err := s.service.FindMuseumItemMovement(id)
+	item, err := s.service.GetMuseumItemMovement(id)
 	if err != nil {
 		log.Printf("Failed to find item with details: %s", err)
 		return err
@@ -45,8 +52,8 @@ func (s *Server) getMuseumItemMovementPage(c echo.Context) error {
 	return nil
 }
 
-func getMovementFromForm(c echo.Context) service.MuseumItemMovement {
-	var movement service.MuseumItemMovement
+func getMovementFromForm(c echo.Context) entities.MuseumItemMovement {
+	var movement entities.MuseumItemMovement
 	movement.AcceptDate = getParsedTime(c.FormValue("accept_date"))
 	movement.ExhibitTransferDate = getParsedTime(c.FormValue("exhibit_transfer_date"))
 	movement.ExhibitReturnDate = getParsedTime(c.FormValue("exhibit_return_date"))

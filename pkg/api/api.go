@@ -8,6 +8,7 @@ import (
 	"github.com/jackc/pgx/v4"
 	"github.com/labstack/echo/v4"
 
+	"pbz2/pkg/repo"
 	"pbz2/pkg/service"
 )
 
@@ -19,34 +20,19 @@ type Server struct {
 
 func NewServer() *Server {
 	e := echo.New()
-	conn, err := pgx.Connect(context.TODO(), "postgresql://pbz2:pbz2@localhost:5433/pbz2?sslmode=disable")
+	conn, err := pgx.Connect(context.TODO(), "postgresql://pbz2:pbz2@localhost:5433/pbz2?sslmode=disable") // todo
+	repo := repo.New(conn)
 	if err != nil {
 		panic(err)
 	}
 	s := &Server{
 		Handler: e,
-		service: service.NewService(conn),
+		service: service.NewService(repo),
 		tmpl:    template.Must(template.ParseGlob("static/html/*")),
 	}
-	e.POST("/museumItem", s.createMuseumItem)
-	e.GET("/museumItem", s.getMuseumItemPage)
-	e.GET("/museumItem/:id", s.getMuseumItem)
-	e.GET("/museumItems", s.getMuseumItems)
-	e.GET("/deleteMuseumItem/:id", s.deleteMuseumItem)
-	e.GET("/editMuseumItem/:id", s.editMuseumItem)
-	e.POST("/editMuseumItem/:id", s.updateMuseumItem)
-
-	e.GET("/museumItemSearch", s.getMuseumItemSearchPage)
-	e.POST("/museumItemSearch", s.searchMuseumItems)
-
-	e.POST("/museumItemMovement", s.createMuseumItemMovement)
-	e.GET("/museumItemMovements", s.getMuseumItemMovements)
-	e.GET("/museumItemMovement", s.getMuseumItemMovementPage)
-	e.GET("/museumItemMovement/:id", s.getMuseumItemMovement)
-
-	e.GET("/museumSets", s.getMuseumSets)
-	e.GET("/museumSet/:id", s.getMuseumSet)
-
+	s.initMuseumItemAPI(e)
+	s.initMuseumItemMovement(e)
+	s.initMuseumSet(e)
 
 	e.Static("/", "static")
 	return s
