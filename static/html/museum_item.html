@@ -1,0 +1,13 @@
+{{ define "ShowMuseumItem" }}
+    {{ template "Header" }}
+    <h2> Museum Item {{ .ID }} </h2>
+    <p>Name: {{ .Name }}</p>
+    <p>Inventory Number: {{ .InventoryNumber }}</p>
+    <p>Annotation: {{ .Annotation }}</p>
+    <p>First Name: {{ .Keeper.FirstName }}</p>
+    <p>Last Name: {{ .Keeper.LastName }}</p>
+    <p>Middle Name: {{ .Keeper.MiddleName }}</p>
+    <p>Fund Name: {{ .Fund.Name }}</p>
+    <p>Set Name: {{ .Set.Name }}</p>
+    {{ template "Footer" }}
+{{ end }}

@@ -1,0 +1,32 @@
+{{ define "Museum item Movements" }}
+    {{ template "Header" }}
+    <h2> Museum items Movements</h2>
+    <a href="/museumItemMovement">NEW</a>
+    <table border="1">
+        <thead>
+        <tr>
+            <td>ItemName</td>
+            <td>AcceptDate</td>
+            <td>ExhibitTransferDate</td>
+            <td>ExhibitReturnDate</td>
+            <td>ExhibitionName</td>
+            <td>View</td>
+            <td>Edit</td>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range . }}
+            <tr>
+                <td> {{ .Item.Name }} </td>
+                <td> {{ .AcceptDate.Format "Jan 02, 2006 15:04:05" }} </td>
+                <td> {{ .ExhibitTransferDate.Format "Jan 02, 2006 15:04:05" }} </td>
+                <td> {{ .ExhibitReturnDate.Format "Jan 02, 2006 15:04:05" }} </td>
+                <td> {{ .Exhibition.Name }} </td>
+                <td><a href="/museumItemMovement/{{.ID}}">View</a></td>
+                <td><a href="/editMuseumItemMovement/{{ .ID }}">Edit</a></td>
+            </tr>
+        {{ end }}
+        </tbody>
+    </table>
+    {{ template "Footer" }}
+{{ end }}

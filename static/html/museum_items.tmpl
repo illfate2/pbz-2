@@ -1,0 +1,32 @@
+{{ define "Museum items" }}
+    {{ template "Header" }}
+    <h2> Museum items </h2>
+    <a href="/museumItem">NEW</a>
+    <table border="1">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Invent number</td>
+            <td>Annotation</td>
+            <td>Creation date</td>
+            <td>View</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range . }}
+            <tr>
+                <td> {{ .Name }} </td>
+                <td> {{ .InventoryNumber }} </td>
+                <td>{{ .Annotation }} </td>
+                <td>{{ .CreationDate }} </td>
+                <td><a href="/museumItem/{{.ID}}">View</a></td>
+                <td><a href="/editMuseumItem/{{ .ID }}">Edit</a></td>
+                <td><a href="/deleteMuseumItem/{{ .ID }}">Delete</a><td>
+            </tr>
+        {{ end }}
+        </tbody>
+    </table>
+    {{ template "Footer" }}
+{{ end }}

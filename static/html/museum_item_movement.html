@@ -1,0 +1,12 @@
+{{ define "ShowMuseumItemMovement" }}
+    {{ template "Header" }}
+    <h2> Museum Item Movement{{ .ID }} </h2>
+    <p>AcceptDate: {{ .AcceptDate }}</p>
+    <p>ExhibitTransferDate: {{ .ExhibitTransferDate }}</p>
+    <p>ExhibitReturnDate: {{ .ExhibitReturnDate }}</p>
+    <p>Exhibition Name: {{ .Exhibition.Name }}</p>
+    <p>First Name: {{ .ResponsiblePerson.FirstName }}</p>
+    <p>Last Name: {{ .ResponsiblePerson.LastName }}</p>
+    <p>Middle Name: {{ .ResponsiblePerson.MiddleName }}</p>
+    {{ template "Footer" }}
+{{ end }}

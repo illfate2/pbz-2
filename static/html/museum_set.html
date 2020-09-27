@@ -1,0 +1,30 @@
+{{ define "ShowMuseumSet" }}
+    {{ template "Header" }}
+    <h2> Museum Set {{ .ID }} </h2>
+    <p>Name: {{ .Name }}</p>
+    <table border="1">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Creation Date</td>
+            <td>Annotation</td>
+            <td>First Name</td>
+            <td>Second Name</td>
+            <td>Middle Name</td>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range .Items }}
+            <tr>
+                <td> {{ .Name }} </td>
+                <td> {{ .CreationDate }} </td>
+                <td> {{ .Annotation }} </td>
+                <td> {{ .Keeper.FirstName }}</td>
+                <td> {{ .Keeper.LastName }}</td>
+                <td> {{ .Keeper.MiddleName }}</td>
+            </tr>
+        {{ end }}
+        </tbody>
+    </table>
+    {{ template "Footer" }}
+{{ end }}

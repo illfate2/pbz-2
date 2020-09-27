@@ -1,0 +1,16 @@
+{{ define "EditMuseumItem" }}
+    {{ template "Header" }}
+    <h2>Edit Name and City</h2>
+    <form method="POST">
+        <label> Inventory Number </label>
+        <input type="text" required name="inventory_number" value="{{ .InventoryNumber }}"/><br/>
+        <label> Name </label>
+        <input type="text" required name="item_name" value="{{ .Name }}"/><br/>
+        <label> Creation Date </label>
+        <input type="date" required name="creation_date" value="{{ .CreationDate }}"/><br/>
+        <label> Annotation </label>
+        <input type="text" name="item_annotation" value="{{ .Annotation }}"/><br/>
+        <input type="submit" value="Save item"/>
+    </form><br/>
+    {{ template "Footer" }}
+{{ end }}

@@ -1,0 +1,42 @@
+{{define "New museum item movement"}}
+    {{template "Header"}}
+    <form method="post">
+        <ul>
+            <h4>Movement info</h4>
+            <li>
+                <label for="accept_date">Accept Date:</label>
+                <input required type="datetime-local" id="accept_date" name="accept_date">
+            </li>
+            <li>
+                <label for="exhibit_transfer_date">Exhibit Transfer Date:</label>
+                <input required type="datetime-local" id="exhibit_transfer_date" name="exhibit_transfer_date">
+            </li>
+            <li>
+                <label for="exhibit_return_date">Exhibit Return Date:</label>
+                <input required type="datetime-local" id="exhibit_return_date" name="exhibit_return_date">
+            </li>
+            <h4>Keeper info</h4>
+            <li>
+                <label for="first_name">First name:</label>
+                <textarea required id="first_name" name="first_name"></textarea>
+            </li>
+            <li>
+                <label for="second_name">Second name:</label>
+                <textarea required id="second_name" name="second_name"></textarea>
+            </li>
+            <li>
+                <label for="middle_name">Middle name:</label>
+                <textarea required id="middle_name" name="middle_name"></textarea>
+            </li>
+            <h4>Item info</h4>
+            <li>
+                <label for="item_name">Name:</label>
+                <input required type="item_name" id="item_name" name="item_name">
+            </li>
+            <li class="button">
+                <button type="submit">Create item</button>
+            </li>
+        </ul>
+    </form>
+    {{ template "Footer" }}
+{{end}}

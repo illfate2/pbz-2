@@ -1,0 +1,24 @@
+{{define "Search museum items"}}
+    {{template "Header"}}
+    <form method="post">
+        <ul>
+            <h4>Item info</h4>
+            <li>
+                <label for="item_name">Item Name:</label>
+                <input type="text" id="item_name" name="item_name">
+            </li>
+            <li>
+                <label for="date">On date:</label>
+                <input type="date" id="date" name="date">
+            </li>
+            <li>
+                <label for="set_name">Set Name:</label>
+                <input type="text" id="set_name" name="set_name">
+            </li>
+            <li class="button">
+                <button type="submit">Search items</button>
+            </li>
+        </ul>
+    </form>
+    {{ template "Footer" }}
+{{end}}

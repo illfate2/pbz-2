@@ -1,0 +1,51 @@
+{{define "New museum item"}}
+    {{template "Header"}}
+    <form method="post">
+        <ul>
+            <h4>Item info</h4>
+            <li>
+                <label for="name">Name:</label>
+                <input required type="name" id="name" name="item_name">
+            </li>
+            <li>
+                <label for="inventory_number">InventoryNumber:</label>
+                <input required type="inventory_number" id="inventory_number" name="inventory_number">
+            </li>
+            <li>
+                <label for="creation_date">Creation Date:</label>
+                <input required type="date" id="creation_date" name="creation_date">
+            </li>
+            <li>
+                <label for="annotation">Annotation:</label>
+                <textarea id="annotation" name="item_annotation"></textarea>
+            </li>
+            <h4>Keeper info</h4>
+            <li>
+                <label for="first_name">First name:</label>
+                <textarea required id="first_name" name="first_name"></textarea>
+            </li>
+            <li>
+                <label for="second_name">Second name:</label>
+                <textarea required id="second_name" name="second_name"></textarea>
+            </li>
+            <li>
+                <label for="middle_name">Middle name:</label>
+                <textarea required id="middle_name" name="middle_name"></textarea>
+            </li>
+            <h4>Fund info</h4>
+            <li>
+                <label for="fund_name">Name:</label>
+                <input required type="fund_name" id="fund_name" name="fund_name">
+            </li>
+            <h4>Set info</h4>
+            <li>
+                <label for="set_name">Name:</label>
+                <input required type="set_name" id="set_name" name="set_name">
+            </li>
+            <li class="button">
+                <button type="submit">Create item</button>
+            </li>
+        </ul>
+    </form>
+    {{ template "Footer" }}
+{{end}}
